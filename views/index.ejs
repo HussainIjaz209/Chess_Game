@@ -1,9 +1,13 @@
+<!-- index.ejs  -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://your-main-site.vercel.app">
+    <meta name="description" content="Multiplayer online chess game built with Express and Socket.IO">
     <style>
         .chessboard {
             display: grid;
@@ -86,10 +90,16 @@
             }
         }
     </style>
-    <title>Document</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Chess Game</title>
 </head>
 
 <body>
+
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <p style="color: rgb(255, 0, 0); font-weight: bolder;">Note: </p>
+        <p style="font-weight: bold;">This is just an academic mini project</p>
+    </div>
     <div class="Box">
 
         <div class="chessboard Box2"></div>

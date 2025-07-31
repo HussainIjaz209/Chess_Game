@@ -1,7 +1,10 @@
+// javascript.js
 
 const socket = io.connect();
 
-
+function joinGame() {
+    socket.emit('joined');
+}
 
 const chess = new Chess();
 const boardElement = document.querySelector('.chessboard');
@@ -50,11 +53,11 @@ const renderBoard = () => {
                 squareElement.appendChild(pieceElement);
             }
 
-            squareElement.addEventListener("dragover", function(e) {
+            squareElement.addEventListener("dragover", function (e) {
                 e.preventDefault();
             });
 
-            squareElement.addEventListener("drop", function(e) {
+            squareElement.addEventListener("drop", function (e) {
                 e.preventDefault();
                 if (draggedPiece) {
                     const targetSquare = {
@@ -95,35 +98,26 @@ const handleMove = (source, target) => {
 };
 
 
-const getPieceUnicode = (piece) =>{	
+const getPieceUnicode = (piece) => {
     const unicodePiece = {
-    K:"♛",
-    Q:"♚",	
-    B:"♝",	
-    K:"♞",	
-    R:"♜",
-    P:"♟",	
-    p:"♙",
-    r:"♖",	
-    n:"♘",
-    b:"♗",	
-    k:"♕",
-    q:"♔"
-}	
-    return unicodePiece[piece.type] || "";
+        p: "♟", r: "♜", n: "♞", b: "♝", q: "♛", k: "♚", // black
+        P: "♙", R: "♖", N: "♘", B: "♗", Q: "♕", K: "♔"  // white
+    };
+    const key = piece.color === 'w' ? piece.type.toUpperCase() : piece.type.toLowerCase();
+    return unicodePiece[key] || "";
 };
 
-socket.on("playerRole", function(role) {
+socket.on("playerRole", function (role) {
     playerRole = role;
     renderBoard();
 });
 
-socket.on("spectatorRole", function(){
-    playerRole=null;
+socket.on("spectatorRole", function () {
+    playerRole = null;
     renderBoard();
 });
 
-socket.on("move", function(move) {
+socket.on("move", function (move) {
     const result = chess.move(move);
     if (result) {
         renderBoard();
@@ -132,7 +126,7 @@ socket.on("move", function(move) {
     }
 });
 
-socket.on("boardState", function(fen) {
+socket.on("boardState", function (fen) {
     chess.load(fen);
     renderBoard();
 });

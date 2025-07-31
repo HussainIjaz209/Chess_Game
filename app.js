@@ -1,4 +1,4 @@
-
+// app.js
 
 const express = require('express');
 const socket = require('socket.io');
@@ -35,10 +35,12 @@ io.on('connection', function(uniquesocket) {
         
         if (!players.white) {
             players.white = uniquesocket.id;
-            uniquesocket.emit('playersRole', 'w');
+            uniquesocket.emit('playerRole', 'w');
+            console.log("player role");
+
         } else if (!players.black) {
             players.black = uniquesocket.id;
-            uniquesocket.emit('playersRole', 'b');
+            uniquesocket.emit('playerRole', 'b');
         } else {
             uniquesocket.emit('spectatorRole');
         }
@@ -79,6 +81,8 @@ io.on('connection', function(uniquesocket) {
 
 
 
-server.listen(3000);
+server.listen(3000, () => {
+    console.log('Server started on http://localhost:3000');
+});
 
 
